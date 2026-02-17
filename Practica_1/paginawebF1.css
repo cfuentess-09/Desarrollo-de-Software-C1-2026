@@ -1,0 +1,163 @@
+/*Modificacion del espacio del header*/
+header {
+    background-color: #0066cc; /* Color de fondo azul, en hexadecimal */
+    padding: 20px; /* Espacio interno alrededor del contenido del header */
+    text-align: center;
+}
+/*Modificacion del titulo del header*/
+header h1 {
+    font-size: 36px; /* Tamaño de letra */
+    font-family: Arial, sans-serif; /* Tipo de letra */
+    color: #e10600; /* Color rojo, en hexadecimal */
+    text-align: center;  /*Centrar el texto */
+    
+}
+/*Modificacion del logo de F1 del header, por medio de la clase en el HTML*/
+.logo-f1 {
+    width: 100px;
+    height: auto;
+    margin: 0 160px; /* Margen lateral de 20px, y sin margen superior e inferior */
+}
+/*Modificacion del logo de Redes Sociales del header, por medio de la clase en el HTML*/
+.RS {
+    width: 200px;
+    height: auto;
+    margin: 0 160px; /* Margen lateral de 20px, y sin margen superior e inferior */
+}
+/*Modificacion de la barra de navegacion*/
+nav section {
+    display: flex;
+    align-items: center;
+    gap: 15px; /* Espacio entre el h2 y la imagen */
+}
+/*Modificacion de la imagen del nav*/
+nav section img {
+    height: 40px; /* Ajusta el tamaño del logo F1 */
+    width: auto;
+}
+/* Ajusto el espacio entre el titulo h2, la imagen y los hipervinculos  */
+nav ol {
+    margin-top: 15px; 
+}
+/*Modificacion de la tabla de resultados, por medio de la clase en el HTML*/
+.bandera-australia {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-china {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-japon {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-españa {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-monaco {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-bahrian {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-saudi {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-miami {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-italia {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-mexico {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-belgica {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+.bandera-estados-unidos
+ {
+    width: 100px;
+    height: auto;
+    vertical-align: middle; /* Alinea la imagen con el texto */
+    margin-right: 8px; /* Espacio entre la bandera y el texto */
+}
+/*Seccion de los proximos eventos, por medio de la clase en el HTML*/
+.evento { 
+    position: relative;
+    padding: 30px;
+    background-color: #e0e0e0;
+    margin: 20px 0;
+    width: 1600px;
+    height: 650px;
+    display: flex; /* Activa flexbox */
+    gap: 20px; /* Espacio entre Australia y China */
+    flex-wrap: wrap;
+}
+
+.evento > div {
+    flex: 1; /* Cada evento ocupa el mismo espacio */
+    min-width: 300px;
+    background-color: #2196F3;
+    border-radius: 10px;
+    padding: 20px;
+    position: relative;
+    z-index: 1;
+}
+
+/* Tamaño fijo para las imágenes */
+.evento img {
+    width: 75%; /* Ocupa todo el ancho del contenedor */
+    height: 300px; /* Altura fija */
+    object-fit: cover; /* Recorta la imagen manteniendo proporciones */
+    display: block;
+    margin-bottom: 15px;
+    border-radius: 10px;
+}
+/* Estilos para los títulos de los eventos */
+.evento h2, .evento h4 {
+    margin: 10px 0;
+}
+
+/* Estilos para los iconos y texto */
+.evento div p {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin: 5px 0;
+}
+/* Tamaño de los iconos */
+.evento div p i {
+    font-size: 16px;
+}
