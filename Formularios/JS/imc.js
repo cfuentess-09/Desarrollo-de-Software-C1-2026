@@ -1,6 +1,8 @@
 /*
-Comenterio multilinea
+Conectamos la pagina HTML con el archivo JavaScript utilizando la etiqueta <script> en el archivo HTML, y especificando la ruta del archivo JavaScript en el atributo src.
 */
+let btnCalcularIMC = document.getElementById("btnCalcularIMC"); // Obtener el elemento del botón "Calcular IMC" por su ID y asignarlo a la variable btnCalcularIMC
+
 
 // Comentario de una sola linea
 //consolo.log es un quivalente  a print () en Python.
@@ -34,6 +36,7 @@ Datos de prueba en kg       m       IMC
                     60      1.8     18.5
 */
 
+/*
 function calcularIMC(peso, estatura) {
     //               (estatura*estatura)
     let imc = peso / Math.pow(estatura, 2);
@@ -43,16 +46,23 @@ function calcularIMC(peso, estatura) {
 calcularIMC(80, 1.7);
 calcularIMC(60, 1.8);
 
+*/
 // Función con datos de salida (valor de retorno)
-function calcularIMCRetorno(peso, estatura) {
-    //               (estatura*estatura)
+function calcularIMCRetorno() {  // La función calcularIMCRetorno toma dos parámetros: peso y estatura, y devuelve el valor del IMC calculado a partir de esos parámetros.
+    console.log("Evento de click"); 
+    // Imprimir un mensaje en la consola indicando que se está calculando el IMC 
+    
+    
+    /*
     let imc = peso / Math.pow(estatura, 2);
     return imc.toFixed(2);
-}
+    */
 
+/*
 console.log("El IMC es: " + calcularIMCRetorno(80, 1.7));
 console.log("El IMC es: " + calcularIMCRetorno(60, 1.8));
-
+*/
+}
 /* Crear una función para calcular el área de un rectángulo
 Datos de prueba:    base    altura      área
                     5       3           15
@@ -137,3 +147,6 @@ console.log(convertirTemperatura(25, "F")); // 77
 console.log(convertirTemperatura(32, "C")); // 0
 console.log(convertirTemperatura("32", "C")); // Error
 console.log(convertirTemperatura(32, "a")); // Error
+
+//Escuchador de eventos: Permite ejecutar una función cuando ocurre un evento específico, como un clic en un botón o la carga de la página.
+btnCalcularIMC.addEventListener("click", calcularIMCRetorno); // Agregar un escuchador de eventos al botón "Calcular IMC" que ejecuta la función calcularIMCRetorno cuando se hace clic en el botón
