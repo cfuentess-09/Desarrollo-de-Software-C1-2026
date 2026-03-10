@@ -1,0 +1,1904 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Wireframe — Plataforma Culinaria | RecetaHub</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700;900&family=DM+Sans:wght@300;400;500;600&display=swap');
+
+  :root {
+    --bg: #F5F0E8;
+    --surface: #FDFAF4;
+    --border: #D4C9B0;
+    --accent: #C85A1A;
+    --accent2: #3D6B4F;
+    --dark: #1A1208;
+    --mid: #5C4A2A;
+    --light: #E8DFC8;
+    --chef: #C85A1A;
+    --user: #3D6B4F;
+    --admin: #4A3A7A;
+    --wire: #A09070;
+    --wire-light: #D4C9B0;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--dark);
+    min-height: 100vh;
+  }
+
+  /* ═══ HEADER DEL DOCUMENTO ═══ */
+  .doc-header {
+    background: var(--dark);
+    color: #F5F0E8;
+    padding: 24px 40px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 3px solid var(--accent);
+  }
+  .doc-title { font-family: 'Playfair Display', serif; font-size: 22px; }
+  .doc-meta { font-size: 12px; opacity: 0.6; text-align: right; line-height: 1.8; }
+  .doc-badge {
+    font-size: 10px; font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase;
+    border: 1px solid rgba(255,255,255,0.3); padding: 4px 10px; border-radius: 2px;
+  }
+
+  /* ═══ LEYENDA ═══ */
+  .legend {
+    background: var(--surface);
+    border-bottom: 1px solid var(--border);
+    padding: 14px 40px;
+    display: flex;
+    gap: 24px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .legend-title { font-size: 11px; font-weight: 600; text-transform: uppercase; letter-spacing: 1px; color: var(--mid); margin-right: 8px; }
+  .legend-item { display: flex; align-items: center; gap: 8px; font-size: 12px; }
+  .legend-dot { width: 12px; height: 12px; border-radius: 2px; }
+
+  /* ═══ NAVEGACIÓN ENTRE PANTALLAS ═══ */
+  .nav-tabs {
+    background: var(--surface);
+    border-bottom: 2px solid var(--border);
+    padding: 0 40px;
+    display: flex;
+    gap: 0;
+    overflow-x: auto;
+  }
+  .nav-tab {
+    padding: 14px 20px;
+    font-size: 12px;
+    font-weight: 500;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: all 0.2s;
+    color: var(--wire);
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .nav-tab:hover { color: var(--dark); }
+  .nav-tab.active { color: var(--dark); border-bottom-color: var(--accent); font-weight: 600; }
+  .nav-tab .tab-badge {
+    font-size: 9px; padding: 2px 6px; border-radius: 10px; font-weight: 700;
+    text-transform: uppercase; letter-spacing: 0.5px;
+  }
+  .badge-chef { background: #FDDBC8; color: var(--chef); }
+  .badge-user { background: #C8DDCC; color: var(--user); }
+  .badge-shared { background: #E8E0D0; color: var(--mid); }
+
+  /* ═══ CONTENT AREA ═══ */
+  .content-area {
+    padding: 32px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+  }
+
+  /* ═══ SCREEN PANEL ═══ */
+  .screen { display: none; }
+  .screen.active { display: block; }
+
+  .screen-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    margin-bottom: 24px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border);
+  }
+  .screen-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 2px;
+    font-weight: 700; margin-bottom: 6px;
+  }
+  .screen-title { font-family: 'Playfair Display', serif; font-size: 28px; color: var(--dark); }
+  .screen-desc { font-size: 13px; color: var(--mid); margin-top: 6px; max-width: 600px; line-height: 1.6; }
+  .req-tags { display: flex; gap: 6px; flex-wrap: wrap; margin-top: 10px; }
+  .req-tag {
+    font-size: 10px; font-weight: 600; letter-spacing: 0.5px;
+    padding: 3px 8px; border: 1px solid var(--border);
+    border-radius: 2px; color: var(--mid);
+    background: var(--light);
+  }
+
+  /* ═══ WIREFRAME CANVAS ═══ */
+  .wf-canvas {
+    background: #FFFFFF;
+    border: 2px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+    box-shadow: 0 4px 20px rgba(26,18,8,0.08);
+  }
+
+  /* ── Barra de navegación simulada ── */
+  .wf-navbar {
+    background: var(--dark);
+    padding: 0 20px;
+    height: 52px;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+  }
+  .wf-logo {
+    font-family: 'Playfair Display', serif;
+    color: #F5F0E8;
+    font-size: 18px;
+    font-weight: 700;
+    margin-right: 10px;
+  }
+  .wf-nav-links { display: flex; gap: 16px; flex: 1; }
+  .wf-nav-link {
+    color: rgba(245,240,232,0.6);
+    font-size: 12px;
+    padding: 4px 8px;
+    border-radius: 2px;
+    cursor: default;
+  }
+  .wf-nav-link.active-link {
+    color: #F5F0E8;
+    background: rgba(255,255,255,0.1);
+  }
+  .wf-nav-actions { display: flex; gap: 8px; margin-left: auto; }
+  .wf-avatar {
+    width: 32px; height: 32px; border-radius: 50%;
+    background: var(--accent);
+    display: flex; align-items: center; justify-content: center;
+    color: white; font-size: 12px; font-weight: 700; cursor: default;
+  }
+  .wf-avatar.chef-avatar { background: var(--chef); }
+  .wf-avatar.user-avatar { background: var(--user); }
+
+  /* ── Layout general ── */
+  .wf-body { display: flex; min-height: 500px; }
+  .wf-sidebar {
+    width: 220px;
+    background: var(--surface);
+    border-right: 1px solid var(--border);
+    padding: 20px 0;
+    flex-shrink: 0;
+  }
+  .wf-sidebar-section { margin-bottom: 20px; }
+  .wf-sidebar-label {
+    font-size: 9px; text-transform: uppercase; letter-spacing: 1.5px;
+    font-weight: 700; color: var(--wire); padding: 0 16px 8px;
+  }
+  .wf-sidebar-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 9px 16px; font-size: 12px; color: var(--mid);
+    cursor: default;
+  }
+  .wf-sidebar-item.active-item {
+    background: var(--light);
+    color: var(--dark);
+    font-weight: 600;
+    border-left: 3px solid var(--accent);
+  }
+  .wf-sidebar-item.active-item.chef-active { border-left-color: var(--chef); }
+  .wf-sidebar-item.active-item.user-active { border-left-color: var(--user); }
+  .si-icon { font-size: 14px; opacity: 0.7; }
+
+  .wf-main { flex: 1; padding: 24px; overflow: hidden; }
+
+  /* ── Bloques genéricos de wireframe ── */
+  .wf-row { display: flex; gap: 16px; margin-bottom: 16px; }
+  .wf-col { flex: 1; }
+
+  .wf-block {
+    background: var(--light);
+    border: 1.5px dashed var(--wire-light);
+    border-radius: 3px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 12px;
+    text-align: center;
+  }
+  .wf-block-label {
+    font-size: 10px; text-transform: uppercase; letter-spacing: 1px;
+    font-weight: 700; color: var(--wire); margin-bottom: 4px;
+  }
+  .wf-block-desc { font-size: 11px; color: var(--mid); line-height: 1.4; }
+
+  /* ── Componentes específicos ── */
+  .wf-page-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 20px; margin-bottom: 4px; color: var(--dark);
+  }
+  .wf-page-subtitle { font-size: 12px; color: var(--mid); margin-bottom: 20px; }
+
+  .wf-search-bar {
+    background: var(--light);
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    padding: 10px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 16px;
+  }
+  .wf-search-icon { font-size: 16px; color: var(--wire); }
+  .wf-search-placeholder { font-size: 12px; color: var(--wire); flex: 1; }
+  .wf-search-btn {
+    background: var(--accent);
+    color: white;
+    font-size: 11px;
+    font-weight: 600;
+    padding: 6px 14px;
+    border-radius: 2px;
+  }
+
+  .wf-filter-row {
+    display: flex; gap: 8px; margin-bottom: 20px; flex-wrap: wrap;
+  }
+  .wf-filter-chip {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 4px 12px;
+    font-size: 11px;
+    color: var(--mid);
+    cursor: default;
+  }
+  .wf-filter-chip.selected {
+    background: var(--accent);
+    color: white;
+    border-color: var(--accent);
+  }
+
+  .wf-grid { display: grid; gap: 14px; }
+  .wf-grid-3 { grid-template-columns: repeat(3, 1fr); }
+  .wf-grid-2 { grid-template-columns: repeat(2, 1fr); }
+  .wf-grid-4 { grid-template-columns: repeat(4, 1fr); }
+
+  .wf-recipe-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  .wf-recipe-img {
+    height: 90px;
+    background: var(--light);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 24px;
+    position: relative;
+  }
+  .wf-recipe-badge {
+    position: absolute; top: 6px; right: 6px;
+    background: var(--accent); color: white;
+    font-size: 8px; font-weight: 700;
+    padding: 2px 6px; border-radius: 2px;
+    text-transform: uppercase;
+  }
+  .wf-recipe-body { padding: 10px; }
+  .wf-recipe-name { font-size: 12px; font-weight: 600; margin-bottom: 4px; }
+  .wf-recipe-meta { font-size: 10px; color: var(--wire); display: flex; gap: 6px; flex-wrap: wrap; }
+  .wf-recipe-meta span { background: var(--light); padding: 1px 5px; border-radius: 2px; }
+  .wf-recipe-actions { display: flex; gap: 4px; margin-top: 8px; }
+  .wf-btn-sm {
+    flex: 1;
+    padding: 5px 8px;
+    font-size: 10px;
+    font-weight: 600;
+    text-align: center;
+    border-radius: 2px;
+    cursor: default;
+  }
+  .wf-btn-primary { background: var(--accent); color: white; }
+  .wf-btn-outline { background: transparent; border: 1px solid var(--border); color: var(--mid); }
+  .wf-btn-green { background: var(--accent2); color: white; }
+
+  .wf-btn {
+    display: inline-flex; align-items: center; gap: 6px;
+    padding: 9px 18px; font-size: 12px; font-weight: 600;
+    border-radius: 3px; cursor: default; text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  .wf-btn.primary { background: var(--accent); color: white; }
+  .wf-btn.secondary { background: transparent; border: 1.5px solid var(--border); color: var(--mid); }
+  .wf-btn.green { background: var(--accent2); color: white; }
+
+  /* Form elements */
+  .wf-form-group { margin-bottom: 14px; }
+  .wf-label { font-size: 10px; font-weight: 700; text-transform: uppercase; letter-spacing: 0.8px; color: var(--mid); margin-bottom: 5px; display: block; }
+  .wf-input {
+    width: 100%;
+    background: var(--light);
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--dark);
+  }
+  .wf-input.focus { border-color: var(--accent); }
+  .wf-textarea {
+    width: 100%;
+    background: var(--light);
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--dark);
+    height: 70px;
+    resize: none;
+  }
+  .wf-select {
+    width: 100%;
+    background: var(--light);
+    border: 1.5px solid var(--border);
+    border-radius: 3px;
+    padding: 8px 12px;
+    font-size: 12px;
+    color: var(--dark);
+  }
+
+  /* Table */
+  .wf-table { width: 100%; border-collapse: collapse; font-size: 11px; }
+  .wf-table th {
+    background: var(--light);
+    padding: 8px 10px;
+    text-align: left;
+    font-size: 10px;
+    text-transform: uppercase;
+    letter-spacing: 0.8px;
+    color: var(--mid);
+    border-bottom: 2px solid var(--border);
+    font-weight: 700;
+  }
+  .wf-table td {
+    padding: 8px 10px;
+    border-bottom: 1px solid var(--wire-light);
+    color: var(--dark);
+  }
+  .wf-table tr:hover td { background: var(--light); }
+  .wf-status {
+    display: inline-block;
+    padding: 2px 8px; border-radius: 10px;
+    font-size: 9px; font-weight: 700; text-transform: uppercase;
+  }
+  .status-pub { background: #C8DDCC; color: var(--accent2); }
+  .status-draft { background: #E8E0D0; color: var(--mid); }
+  .status-pending { background: #FDDBC8; color: var(--chef); }
+
+  /* Planner */
+  .wf-planner { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; }
+  .wf-day-col { }
+  .wf-day-header {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.8px; color: var(--mid);
+    text-align: center; padding: 6px 0;
+    border-bottom: 2px solid var(--border);
+    margin-bottom: 8px;
+  }
+  .wf-day-slot {
+    background: var(--light);
+    border: 1.5px dashed var(--border);
+    border-radius: 3px;
+    padding: 8px 6px;
+    text-align: center;
+    margin-bottom: 6px;
+    min-height: 60px;
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+  }
+  .wf-day-slot.filled {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-left: 3px solid var(--accent2);
+  }
+  .wf-slot-meal { font-size: 9px; text-transform: uppercase; letter-spacing: 0.5px; color: var(--wire); margin-bottom: 3px; }
+  .wf-slot-name { font-size: 10px; font-weight: 600; color: var(--dark); line-height: 1.3; }
+  .wf-slot-empty { font-size: 18px; color: var(--wire-light); }
+
+  /* Shopping list */
+  .wf-shopping-item {
+    display: flex; align-items: center; gap: 10px;
+    padding: 8px 12px;
+    border-bottom: 1px solid var(--wire-light);
+    font-size: 12px;
+  }
+  .wf-check { width: 14px; height: 14px; border: 2px solid var(--border); border-radius: 2px; flex-shrink: 0; }
+  .wf-check.checked { background: var(--accent2); border-color: var(--accent2); }
+  .wf-item-name { flex: 1; color: var(--dark); }
+  .wf-item-qty { font-size: 11px; color: var(--mid); font-weight: 500; }
+  .wf-item-cat { font-size: 9px; background: var(--light); padding: 1px 6px; border-radius: 10px; color: var(--wire); }
+
+  /* Stats */
+  .wf-stat-card {
+    background: var(--surface);
+    border: 1.5px solid var(--border);
+    border-radius: 4px;
+    padding: 14px;
+  }
+  .wf-stat-label { font-size: 10px; text-transform: uppercase; letter-spacing: 0.8px; color: var(--wire); margin-bottom: 4px; }
+  .wf-stat-value { font-family: 'Playfair Display', serif; font-size: 26px; color: var(--dark); }
+  .wf-stat-delta { font-size: 10px; color: var(--accent2); margin-top: 2px; }
+
+  /* Rating stars */
+  .wf-stars { color: #E8A020; font-size: 12px; letter-spacing: 1px; }
+  .wf-stars-empty { color: var(--wire-light); font-size: 12px; }
+
+  /* Image upload placeholder */
+  .wf-upload-area {
+    border: 2px dashed var(--border);
+    border-radius: 4px;
+    padding: 24px;
+    text-align: center;
+    background: var(--light);
+  }
+  .wf-upload-icon { font-size: 28px; margin-bottom: 8px; color: var(--wire); }
+  .wf-upload-text { font-size: 11px; color: var(--mid); line-height: 1.6; }
+
+  /* Annotation callouts */
+  .wf-annotations {
+    margin-top: 24px;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 12px;
+  }
+  .wf-annotation {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-left: 3px solid var(--accent);
+    border-radius: 2px;
+    padding: 10px 14px;
+    font-size: 11px;
+    line-height: 1.6;
+  }
+  .wf-annotation.chef-note { border-left-color: var(--chef); }
+  .wf-annotation.user-note { border-left-color: var(--user); }
+  .wf-annotation.rnf-note { border-left-color: var(--admin); }
+  .wf-ann-title { font-size: 9px; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 4px; }
+  .wf-ann-title.chef { color: var(--chef); }
+  .wf-ann-title.user { color: var(--user); }
+  .wf-ann-title.rnf { color: var(--admin); }
+
+  /* ── SECTION dividers ── */
+  .wf-divider {
+    height: 1px; background: var(--border); margin: 16px 0;
+  }
+  .wf-section-header {
+    font-size: 10px; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 1px; color: var(--wire); margin-bottom: 12px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .wf-section-header::after {
+    content: ''; flex: 1; height: 1px; background: var(--wire-light);
+  }
+
+  /* ── Breadcrumb ── */
+  .wf-breadcrumb { font-size: 11px; color: var(--wire); margin-bottom: 16px; }
+  .wf-breadcrumb span { color: var(--dark); font-weight: 500; }
+
+  /* ── Sidebar stats ── */
+  .wf-mini-stat { padding: 8px 16px; font-size: 11px; color: var(--mid); display: flex; justify-content: space-between; }
+  .wf-mini-stat strong { color: var(--dark); }
+
+  /* ── Tags ── */
+  .wf-tag { font-size: 9px; background: var(--light); border: 1px solid var(--border); padding: 2px 7px; border-radius: 10px; color: var(--mid); display: inline-block; margin: 2px; }
+
+  /* ── Comment block ── */
+  .wf-comment {
+    background: var(--light);
+    border-radius: 4px;
+    padding: 10px;
+    margin-bottom: 8px;
+    font-size: 11px;
+  }
+  .wf-comment-author { font-weight: 600; font-size: 10px; color: var(--mid); margin-bottom: 4px; }
+
+  /* Tab indicator chips */
+  .rf-chip {
+    display: inline-block;
+    background: var(--dark);
+    color: #F5F0E8;
+    font-size: 9px;
+    font-weight: 700;
+    padding: 3px 8px;
+    border-radius: 2px;
+    letter-spacing: 0.5px;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════ HEADER ═══════════════════════════════ -->
+<div class="doc-header">
+  <div>
+    <div style="font-size:11px;opacity:0.5;text-transform:uppercase;letter-spacing:1.5px;margin-bottom:4px;">Proyecto Técnico — Ingeniería de Software</div>
+    <div class="doc-title">🍽 RecetaHub — Wireframes de Plataforma Culinaria</div>
+  </div>
+  <div style="display:flex;gap:16px;align-items:center;">
+    <div class="doc-badge">Wireframes v1.0</div>
+    <div class="doc-meta">
+      Fecha: Feb 2026<br>
+      6 Pantallas · 2 Roles de usuario<br>
+      RF-01 al RF-06 · RNF-01 al RNF-06
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ LEYENDA ═══════════════════════════════ -->
+<div class="legend">
+  <div class="legend-title">Leyenda:</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--chef)"></div> Chef / Experto</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--user)"></div> Usuario Regular</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--border);border:1px solid #999"></div> Componente UI genérico</div>
+  <div class="legend-item"><div class="legend-dot" style="border:1.5px dashed #A09070;background:transparent"></div> Placeholder / Imagen</div>
+  <div class="legend-item"><div class="legend-dot" style="background:var(--admin)"></div> Anotación de req. no funcional</div>
+  <div style="margin-left:auto;font-size:11px;color:var(--mid);">Haz clic en cada pestaña para explorar las pantallas</div>
+</div>
+
+<!-- ═══════════════════════════════ TABS ═══════════════════════════════ -->
+<div class="nav-tabs">
+  <div class="nav-tab active" onclick="showScreen('s1')">
+    <span>Pantalla 1</span>
+    <span class="tab-badge badge-shared">Compartida</span>
+    Inicio / Catálogo
+  </div>
+  <div class="nav-tab" onclick="showScreen('s2')">
+    <span>Pantalla 2</span>
+    <span class="tab-badge badge-chef">Chef</span>
+    Registrar Receta
+  </div>
+  <div class="nav-tab" onclick="showScreen('s3')">
+    <span>Pantalla 3</span>
+    <span class="tab-badge badge-chef">Chef</span>
+    Perfil del Chef
+  </div>
+  <div class="nav-tab" onclick="showScreen('s4')">
+    <span>Pantalla 4</span>
+    <span class="tab-badge badge-user">Usuario</span>
+    Detalle de Receta
+  </div>
+  <div class="nav-tab" onclick="showScreen('s5')">
+    <span>Pantalla 5</span>
+    <span class="tab-badge badge-user">Usuario</span>
+    Planificador de Comidas
+  </div>
+  <div class="nav-tab" onclick="showScreen('s6')">
+    <span>Pantalla 6</span>
+    <span class="tab-badge badge-user">Usuario</span>
+    Lista de Compras
+  </div>
+</div>
+
+<!-- ═══════════════════════════════ CONTENT ═══════════════════════════════ -->
+<div class="content-area">
+
+<!-- ┌────────────────────────────────────────────────────────────────────┐
+     │  PANTALLA 1 — Catálogo / Búsqueda (RF-02) — Compartida           │
+     └────────────────────────────────────────────────────────────────────┘ -->
+<div id="s1" class="screen active">
+  <div class="screen-header">
+    <div>
+      <div class="screen-label" style="color:var(--mid)">Pantalla 1 de 6 — Compartida</div>
+      <div class="screen-title">Catálogo y Búsqueda de Recetas</div>
+      <div class="screen-desc">Galería principal de la plataforma. Permite a todos los usuarios explorar, buscar y filtrar recetas. Punto de entrada principal post-login.</div>
+      <div class="req-tags">
+        <span class="req-tag">RF-02: Catálogo y Búsqueda</span>
+        <span class="req-tag">RNF-01: Carga &lt; 3s</span>
+        <span class="req-tag">RNF-04: Usabilidad</span>
+        <span class="req-tag">RNF-05: Hasta 10,000 recetas</span>
+        <span class="req-tag">RNF-06: Multi-navegador</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-canvas">
+    <!-- Navbar -->
+    <div class="wf-navbar">
+      <div class="wf-logo">🍽 RecetaHub</div>
+      <div class="wf-nav-links">
+        <div class="wf-nav-link active-link">Catálogo</div>
+        <div class="wf-nav-link">Planificador</div>
+        <div class="wf-nav-link">Mi Colección</div>
+        <div class="wf-nav-link">Comunidad</div>
+      </div>
+      <div class="wf-nav-actions">
+        <div style="color:rgba(245,240,232,0.7);font-size:20px;margin-right:4px;">🔔</div>
+        <div class="wf-avatar user-avatar">MR</div>
+      </div>
+    </div>
+    <!-- Body -->
+    <div class="wf-body">
+      <!-- Sidebar filtros -->
+      <div class="wf-sidebar">
+        <div class="wf-sidebar-section">
+          <div class="wf-sidebar-label">Filtros</div>
+          <div class="wf-sidebar-item active-item">
+            <span class="si-icon">📋</span> Todas las recetas
+          </div>
+          <div class="wf-sidebar-item"><span class="si-icon">⭐</span> Mejor valoradas</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🔥</span> Populares</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🆕</span> Recientes</div>
+        </div>
+        <div class="wf-sidebar-section">
+          <div class="wf-sidebar-label">Tipo de Plato</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🍳</span> Desayuno</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🥗</span> Almuerzo</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🍲</span> Cena</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🎂</span> Postres</div>
+        </div>
+        <div class="wf-sidebar-section">
+          <div class="wf-sidebar-label">Dificultad</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🟢</span> Fácil</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🟡</span> Intermedio</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🔴</span> Avanzado</div>
+        </div>
+        <div style="padding: 16px;">
+          <div class="wf-sidebar-label">Presupuesto máx.</div>
+          <div class="wf-input" style="font-size:11px;">₡ 5,000</div>
+        </div>
+      </div>
+      <!-- Main -->
+      <div class="wf-main">
+        <!-- Search -->
+        <div class="wf-search-bar">
+          <div class="wf-search-icon">🔍</div>
+          <div class="wf-search-placeholder">Buscar por nombre, ingrediente, chef o etiqueta...</div>
+          <div style="font-size:11px;color:var(--wire);margin-right:8px;">Buscar por ingredientes</div>
+          <div class="wf-search-btn">Buscar</div>
+        </div>
+        <!-- Chips activos -->
+        <div class="wf-filter-row">
+          <div class="wf-filter-chip selected">Todo</div>
+          <div class="wf-filter-chip">Vegetariano</div>
+          <div class="wf-filter-chip">Sin gluten</div>
+          <div class="wf-filter-chip">Rápidas (&lt;30 min)</div>
+          <div class="wf-filter-chip">Bajo costo</div>
+          <div class="wf-filter-chip">+ Filtros</div>
+          <div style="margin-left:auto;font-size:11px;color:var(--mid);">1,248 recetas encontradas</div>
+        </div>
+        <!-- Grid de recetas -->
+        <div class="wf-grid wf-grid-3" style="margin-bottom:16px;">
+          <!-- Receta 1 -->
+          <div class="wf-recipe-card">
+            <div class="wf-recipe-img">🥘<div class="wf-recipe-badge">Chef Pro</div></div>
+            <div class="wf-recipe-body">
+              <div class="wf-recipe-name">Gallo Pinto Tradicional</div>
+              <div class="wf-recipe-meta">
+                <span>🟢 Fácil</span><span>⏱ 25 min</span><span>💰 ₡800</span>
+              </div>
+              <div style="margin-top:5px;"><span class="wf-stars">★★★★</span><span class="wf-stars-empty">★</span> <span style="font-size:10px;color:var(--mid);">4.2 (134)</span></div>
+              <div class="wf-recipe-actions">
+                <div class="wf-btn-sm wf-btn-primary">Ver</div>
+                <div class="wf-btn-sm wf-btn-outline">♡ Guardar</div>
+              </div>
+            </div>
+          </div>
+          <!-- Receta 2 -->
+          <div class="wf-recipe-card">
+            <div class="wf-recipe-img">🍝<div class="wf-recipe-badge" style="background:var(--accent2);">Popular</div></div>
+            <div class="wf-recipe-body">
+              <div class="wf-recipe-name">Pasta Carbonara Clásica</div>
+              <div class="wf-recipe-meta">
+                <span>🟡 Intermedio</span><span>⏱ 40 min</span><span>💰 ₡2,200</span>
+              </div>
+              <div style="margin-top:5px;"><span class="wf-stars">★★★★★</span> <span style="font-size:10px;color:var(--mid);">4.9 (87)</span></div>
+              <div class="wf-recipe-actions">
+                <div class="wf-btn-sm wf-btn-primary">Ver</div>
+                <div class="wf-btn-sm wf-btn-outline">♡ Guardar</div>
+              </div>
+            </div>
+          </div>
+          <!-- Receta 3 -->
+          <div class="wf-recipe-card">
+            <div class="wf-recipe-img">🍜</div>
+            <div class="wf-recipe-body">
+              <div class="wf-recipe-name">Sopa de Pollo Casera</div>
+              <div class="wf-recipe-meta">
+                <span>🟢 Fácil</span><span>⏱ 60 min</span><span>💰 ₡1,500</span>
+              </div>
+              <div style="margin-top:5px;"><span class="wf-stars">★★★★</span><span class="wf-stars-empty">★</span> <span style="font-size:10px;color:var(--mid);">4.0 (52)</span></div>
+              <div class="wf-recipe-actions">
+                <div class="wf-btn-sm wf-btn-primary">Ver</div>
+                <div class="wf-btn-sm wf-btn-outline">♡ Guardar</div>
+              </div>
+            </div>
+          </div>
+          <!-- Receta 4 -->
+          <div class="wf-recipe-card">
+            <div class="wf-recipe-img">🥗</div>
+            <div class="wf-recipe-body">
+              <div class="wf-recipe-name">Ensalada Mediterránea</div>
+              <div class="wf-recipe-meta">
+                <span>🟢 Fácil</span><span>⏱ 15 min</span><span>💰 ₡1,800</span>
+              </div>
+              <div style="margin-top:5px;"><span class="wf-stars">★★★</span><span class="wf-stars-empty">★★</span> <span style="font-size:10px;color:var(--mid);">3.5 (29)</span></div>
+              <div class="wf-recipe-actions">
+                <div class="wf-btn-sm wf-btn-primary">Ver</div>
+                <div class="wf-btn-sm wf-btn-outline">♡ Guardar</div>
+              </div>
+            </div>
+          </div>
+          <!-- Receta 5 -->
+          <div class="wf-recipe-card">
+            <div class="wf-recipe-img">🍛</div>
+            <div class="wf-recipe-body">
+              <div class="wf-recipe-name">Arroz con Pollo Tico</div>
+              <div class="wf-recipe-meta">
+                <span>🟡 Intermedio</span><span>⏱ 55 min</span><span>💰 ₡2,500</span>
+              </div>
+              <div style="margin-top:5px;"><span class="wf-stars">★★★★</span><span class="wf-stars-empty">★</span> <span style="font-size:10px;color:var(--mid);">4.3 (201)</span></div>
+              <div class="wf-recipe-actions">
+                <div class="wf-btn-sm wf-btn-primary">Ver</div>
+                <div class="wf-btn-sm wf-btn-outline">♡ Guardar</div>
+              </div>
+            </div>
+          </div>
+          <!-- Receta 6 -->
+          <div class="wf-recipe-card">
+            <div class="wf-recipe-img">🎂<div class="wf-recipe-badge" style="background:#7A4A8A;">Reto</div></div>
+            <div class="wf-recipe-body">
+              <div class="wf-recipe-name">Tres Leches Especial</div>
+              <div class="wf-recipe-meta">
+                <span>🔴 Avanzado</span><span>⏱ 90 min</span><span>💰 ₡3,200</span>
+              </div>
+              <div style="margin-top:5px;"><span class="wf-stars">★★★★★</span> <span style="font-size:10px;color:var(--mid);">5.0 (44)</span></div>
+              <div class="wf-recipe-actions">
+                <div class="wf-btn-sm wf-btn-primary">Ver</div>
+                <div class="wf-btn-sm wf-btn-outline">♡ Guardar</div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <!-- Paginación -->
+        <div style="display:flex;justify-content:center;gap:6px;align-items:center;">
+          <div class="wf-btn-sm wf-btn-outline" style="padding:5px 12px;">← Ant.</div>
+          <div class="wf-btn-sm wf-btn-primary" style="padding:5px 10px;min-width:30px;">1</div>
+          <div class="wf-btn-sm wf-btn-outline" style="padding:5px 10px;min-width:30px;">2</div>
+          <div class="wf-btn-sm wf-btn-outline" style="padding:5px 10px;min-width:30px;">3</div>
+          <div style="font-size:11px;color:var(--wire);">... 208</div>
+          <div class="wf-btn-sm wf-btn-outline" style="padding:5px 12px;">Sig. →</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-annotations">
+    <div class="wf-annotation user-note">
+      <div class="wf-ann-title user">Usuario Regular (RF-02)</div>
+      Puede buscar por nombre, ingrediente o etiqueta. Botón "Buscar por ingredientes" activa modo especial de búsqueda con lo que tiene disponible en casa.
+    </div>
+    <div class="wf-annotation chef-note">
+      <div class="wf-ann-title chef">Chef / Experto</div>
+      Las recetas del chef aparecen con badge "Chef Pro". Desde esta vista también puede ingresar a gestionar su contenido.
+    </div>
+    <div class="wf-annotation rnf-note">
+      <div class="wf-ann-title rnf">RNF-01 Rendimiento + RNF-05 Escalabilidad</div>
+      La galería usa paginación (6 por página visible) para garantizar carga menor a 3s. El sistema soporta hasta 10,000 recetas con este esquema.
+    </div>
+    <div class="wf-annotation rnf-note">
+      <div class="wf-ann-title rnf">RNF-04 Usabilidad</div>
+      Un usuario nuevo puede encontrar y guardar su primera receta en menos de 5 minutos gracias al layout intuitivo y barra de búsqueda prominente.
+    </div>
+  </div>
+</div>
+
+<!-- ┌────────────────────────────────────────────────────────────────────┐
+     │  PANTALLA 2 — Registrar Receta (RF-01) — CHEF                    │
+     └────────────────────────────────────────────────────────────────────┘ -->
+<div id="s2" class="screen">
+  <div class="screen-header">
+    <div>
+      <div class="screen-label" style="color:var(--chef)">Pantalla 2 de 6 — Rol: Chef / Experto</div>
+      <div class="screen-title">Formulario de Registro de Receta</div>
+      <div class="screen-desc">El chef completa este formulario para publicar una nueva receta con todos sus detalles: ingredientes, pasos, dificultad, costo estimado e imágenes.</div>
+      <div class="req-tags">
+        <span class="req-tag">RF-01: Registro de Recetas</span>
+        <span class="req-tag">RNF-03: Seguridad</span>
+        <span class="req-tag">RNF-04: Usabilidad</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-canvas">
+    <div class="wf-navbar">
+      <div class="wf-logo">🍽 RecetaHub</div>
+      <div class="wf-nav-links">
+        <div class="wf-nav-link">Catálogo</div>
+        <div class="wf-nav-link">Mi Perfil</div>
+        <div class="wf-nav-link active-link">+ Nueva Receta</div>
+      </div>
+      <div class="wf-nav-actions">
+        <div class="wf-avatar chef-avatar">JM</div>
+      </div>
+    </div>
+    <div class="wf-body">
+      <!-- Sidebar -->
+      <div class="wf-sidebar">
+        <div class="wf-sidebar-section">
+          <div class="wf-sidebar-label">Mis Recetas</div>
+          <div class="wf-sidebar-item"><span class="si-icon">📋</span> Publicadas (12)</div>
+          <div class="wf-sidebar-item"><span class="si-icon">📝</span> Borradores (3)</div>
+          <div class="wf-sidebar-item active-item chef-active"><span class="si-icon">➕</span> Nueva Receta</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🔍</span> Por validar (2)</div>
+        </div>
+        <div style="padding:16px;">
+          <div class="wf-sidebar-label" style="margin-bottom:10px;">Estado de guardado</div>
+          <div style="font-size:11px;color:var(--accent2);">✓ Guardado automático hace 2 min</div>
+        </div>
+      </div>
+      <!-- Main form -->
+      <div class="wf-main">
+        <div class="wf-breadcrumb">Mi Perfil → Mis Recetas → <span>Nueva Receta</span></div>
+        <div class="wf-page-title">📝 Registrar Nueva Receta</div>
+        <div class="wf-page-subtitle">Los campos marcados con * son obligatorios. El formulario se guarda automáticamente.</div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:24px;">
+          <!-- Columna izquierda -->
+          <div>
+            <div class="wf-section-header">Información General</div>
+            <div class="wf-form-group">
+              <label class="wf-label">Nombre de la Receta *</label>
+              <div class="wf-input focus">Gallo Pinto Gourmet con Culantro</div>
+            </div>
+            <div class="wf-row">
+              <div class="wf-col">
+                <label class="wf-label">Tipo de Plato *</label>
+                <div class="wf-select">Desayuno ▾</div>
+              </div>
+              <div class="wf-col">
+                <label class="wf-label">Dificultad *</label>
+                <div class="wf-select">Fácil ▾</div>
+              </div>
+            </div>
+            <div class="wf-row">
+              <div class="wf-col">
+                <label class="wf-label">Tiempo prep. (min) *</label>
+                <div class="wf-input">30</div>
+              </div>
+              <div class="wf-col">
+                <label class="wf-label">Porciones *</label>
+                <div class="wf-input">4</div>
+              </div>
+            </div>
+            <div class="wf-form-group">
+              <label class="wf-label">Ocasión</label>
+              <div class="wf-filter-row" style="margin-bottom:0;">
+                <div class="wf-filter-chip selected">Cotidiano</div>
+                <div class="wf-filter-chip">Especial</div>
+                <div class="wf-filter-chip">Festivo</div>
+              </div>
+            </div>
+            <div class="wf-form-group">
+              <label class="wf-label">Descripción corta</label>
+              <div class="wf-textarea">Versión gourmet del clásico gallo pinto costarricense, realzado con culantro fresco y un toque de leche de coco...</div>
+            </div>
+            <div class="wf-form-group">
+              <label class="wf-label">Etiquetas / Tags</label>
+              <div style="display:flex;gap:4px;flex-wrap:wrap;">
+                <span class="wf-tag">✕ Costa Rica</span>
+                <span class="wf-tag">✕ Desayuno</span>
+                <span class="wf-tag">✕ Tradicional</span>
+                <div class="wf-input" style="width:80px;font-size:11px;padding:3px 8px;">+ Agregar</div>
+              </div>
+            </div>
+
+            <div class="wf-section-header">Imagen / Video</div>
+            <div class="wf-upload-area">
+              <div class="wf-upload-icon">📷</div>
+              <div class="wf-upload-text">Arrastra tu imagen aquí o<br><strong>haz clic para seleccionar</strong><br><span style="font-size:10px;color:var(--wire);">JPG, PNG, MP4 · Máx 50MB</span></div>
+            </div>
+          </div>
+
+          <!-- Columna derecha -->
+          <div>
+            <div class="wf-section-header">Ingredientes</div>
+            <table class="wf-table" style="margin-bottom:10px;">
+              <thead>
+                <tr>
+                  <th>Ingrediente</th>
+                  <th>Cantidad</th>
+                  <th>Unidad</th>
+                  <th>Costo est.</th>
+                  <th></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Arroz cocido</td>
+                  <td>2</td>
+                  <td>tazas</td>
+                  <td>₡200</td>
+                  <td style="color:red;cursor:default;">✕</td>
+                </tr>
+                <tr>
+                  <td>Frijoles negros</td>
+                  <td>1</td>
+                  <td>taza</td>
+                  <td>₡150</td>
+                  <td style="color:red;cursor:default;">✕</td>
+                </tr>
+                <tr>
+                  <td>Culantro</td>
+                  <td>3</td>
+                  <td>ramas</td>
+                  <td>₡50</td>
+                  <td style="color:red;cursor:default;">✕</td>
+                </tr>
+                <tr>
+                  <td colspan="3" style="color:var(--mid);font-style:italic;">Costo total estimado / porción</td>
+                  <td><strong>₡ 200</strong></td>
+                  <td></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="wf-btn secondary" style="margin-bottom:20px;">+ Agregar ingrediente</div>
+
+            <div class="wf-section-header">Instrucciones Paso a Paso</div>
+            <div style="background:var(--light);border:1.5px solid var(--border);border-radius:4px;padding:12px;margin-bottom:10px;">
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:24px;height:24px;background:var(--chef);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</div>
+                <div style="flex:1;">
+                  <div class="wf-textarea" style="height:50px;">Calentar aceite en sartén a fuego medio. Sofreír la cebolla y el chile dulce picados finamente hasta que estén transparentes...</div>
+                </div>
+              </div>
+            </div>
+            <div style="background:var(--light);border:1.5px solid var(--border);border-radius:4px;padding:12px;margin-bottom:10px;">
+              <div style="display:flex;gap:10px;align-items:flex-start;">
+                <div style="width:24px;height:24px;background:var(--chef);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">2</div>
+                <div style="flex:1;">
+                  <div class="wf-textarea" style="height:50px;">Agregar el arroz cocido y mezclar bien con el sofrito. Incorporar los frijoles con un poco de su caldo...</div>
+                </div>
+              </div>
+            </div>
+            <div class="wf-btn secondary" style="margin-bottom:20px;">+ Agregar paso</div>
+
+            <!-- Botones de acción -->
+            <div style="display:flex;gap:10px;justify-content:flex-end;">
+              <div class="wf-btn secondary">Guardar borrador</div>
+              <div class="wf-btn primary">Publicar receta →</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-annotations">
+    <div class="wf-annotation chef-note">
+      <div class="wf-ann-title chef">RF-01: Datos requeridos</div>
+      Nombre, ingredientes con cantidades y costos, clasificación por tipo/dificultad/ocasión, instrucciones paso a paso, e imagen son los campos clave del formulario.
+    </div>
+    <div class="wf-annotation rnf-note">
+      <div class="wf-ann-title rnf">RNF-03: Seguridad</div>
+      El formulario solo es accesible por usuarios autenticados como Chef. La sesión expira a los 30 minutos de inactividad mostrando una alerta antes de cerrar.
+    </div>
+    <div class="wf-annotation chef-note">
+      <div class="wf-ann-title chef">Guardado automático</div>
+      El sistema guarda borradores automáticamente cada 2 minutos, visible en el sidebar. El chef puede "Guardar borrador" o "Publicar" directamente.
+    </div>
+  </div>
+</div>
+
+<!-- ┌────────────────────────────────────────────────────────────────────┐
+     │  PANTALLA 3 — Perfil del Chef (RF-06)                            │
+     └────────────────────────────────────────────────────────────────────┘ -->
+<div id="s3" class="screen">
+  <div class="screen-header">
+    <div>
+      <div class="screen-label" style="color:var(--chef)">Pantalla 3 de 6 — Rol: Chef / Experto</div>
+      <div class="screen-title">Perfil y Gestión de Contenido del Chef</div>
+      <div class="screen-desc">El chef visualiza y administra todas sus recetas publicadas, borradores, estadísticas de su perfil y métricas de popularidad.</div>
+      <div class="req-tags">
+        <span class="req-tag">RF-06: Perfil y Gestión de Contenido</span>
+        <span class="req-tag">RF-01: Gestión de Recetas</span>
+        <span class="req-tag">RNF-03: Seguridad de sesión</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-canvas">
+    <div class="wf-navbar">
+      <div class="wf-logo">🍽 RecetaHub</div>
+      <div class="wf-nav-links">
+        <div class="wf-nav-link">Catálogo</div>
+        <div class="wf-nav-link active-link">Mi Perfil</div>
+        <div class="wf-nav-link">+ Nueva Receta</div>
+      </div>
+      <div class="wf-nav-actions">
+        <div class="wf-avatar chef-avatar">JM</div>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-sidebar">
+        <div style="padding:16px;text-align:center;border-bottom:1px solid var(--border);margin-bottom:16px;">
+          <div style="width:56px;height:56px;background:var(--chef);border-radius:50%;display:flex;align-items:center;justify-content:center;color:white;font-size:22px;font-weight:700;margin:0 auto 8px;">JM</div>
+          <div style="font-size:13px;font-weight:600;">Jorge Montoya</div>
+          <div style="font-size:10px;color:var(--wire);">Chef Profesional ✓</div>
+          <div style="font-size:10px;color:var(--accent2);margin-top:4px;">🌟 Verificado por Admin</div>
+        </div>
+        <div class="wf-mini-stat">Recetas publicadas <strong>12</strong></div>
+        <div class="wf-mini-stat">Seguidores <strong>438</strong></div>
+        <div class="wf-mini-stat">Valoración promedio <strong>4.6 ⭐</strong></div>
+        <div class="wf-mini-stat">Vistas totales <strong>8,924</strong></div>
+        <div class="wf-divider"></div>
+        <div class="wf-sidebar-section">
+          <div class="wf-sidebar-label">Panel</div>
+          <div class="wf-sidebar-item active-item chef-active"><span class="si-icon">📊</span> Mis Recetas</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🔍</span> Validar Recetas</div>
+          <div class="wf-sidebar-item"><span class="si-icon">💬</span> Comentarios</div>
+          <div class="wf-sidebar-item"><span class="si-icon">⚙️</span> Configuración</div>
+        </div>
+      </div>
+      <div class="wf-main">
+        <!-- Stats -->
+        <div class="wf-grid wf-grid-4" style="margin-bottom:20px;">
+          <div class="wf-stat-card">
+            <div class="wf-stat-label">Publicadas</div>
+            <div class="wf-stat-value">12</div>
+            <div class="wf-stat-delta">↑ +2 este mes</div>
+          </div>
+          <div class="wf-stat-card">
+            <div class="wf-stat-label">Borradores</div>
+            <div class="wf-stat-value">3</div>
+            <div class="wf-stat-delta">Por completar</div>
+          </div>
+          <div class="wf-stat-card">
+            <div class="wf-stat-label">Por Validar</div>
+            <div class="wf-stat-value" style="color:var(--chef);">2</div>
+            <div class="wf-stat-delta">Recetas de usuarios</div>
+          </div>
+          <div class="wf-stat-card">
+            <div class="wf-stat-label">Guardados por otros</div>
+            <div class="wf-stat-value">291</div>
+            <div class="wf-stat-delta">↑ +34 esta semana</div>
+          </div>
+        </div>
+
+        <!-- Tabla de recetas -->
+        <div class="wf-section-header">Mis Recetas Publicadas</div>
+        <div style="display:flex;gap:8px;margin-bottom:12px;">
+          <div class="wf-search-bar" style="flex:1;margin-bottom:0;padding:8px 12px;">
+            <div class="wf-search-icon" style="font-size:13px;">🔍</div>
+            <div class="wf-search-placeholder">Buscar mis recetas...</div>
+          </div>
+          <div class="wf-btn green" style="padding:8px 14px;font-size:11px;">+ Nueva</div>
+        </div>
+
+        <div style="background:white;border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+          <table class="wf-table">
+            <thead>
+              <tr>
+                <th>Receta</th>
+                <th>Tipo</th>
+                <th>Dificultad</th>
+                <th>Valoración</th>
+                <th>Guardados</th>
+                <th>Estado</th>
+                <th>Acciones</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Gallo Pinto Gourmet</strong></td>
+                <td>🍳 Desayuno</td>
+                <td>🟢 Fácil</td>
+                <td>⭐ 4.2</td>
+                <td>134</td>
+                <td><span class="wf-status status-pub">Publicada</span></td>
+                <td style="display:flex;gap:4px;">
+                  <span style="cursor:default;font-size:16px;">✏️</span>
+                  <span style="cursor:default;font-size:16px;">🗑️</span>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Pasta Carbonara</strong></td>
+                <td>🍝 Almuerzo</td>
+                <td>🟡 Intermedio</td>
+                <td>⭐ 4.9</td>
+                <td>87</td>
+                <td><span class="wf-status status-pub">Publicada</span></td>
+                <td style="display:flex;gap:4px;">
+                  <span style="cursor:default;font-size:16px;">✏️</span>
+                  <span style="cursor:default;font-size:16px;">🗑️</span>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Tres Leches</strong></td>
+                <td>🎂 Postres</td>
+                <td>🔴 Avanzado</td>
+                <td>⭐ 5.0</td>
+                <td>70</td>
+                <td><span class="wf-status status-pub">Publicada</span></td>
+                <td style="display:flex;gap:4px;">
+                  <span style="cursor:default;font-size:16px;">✏️</span>
+                  <span style="cursor:default;font-size:16px;">🗑️</span>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Ceviche Tropical</strong></td>
+                <td>🥗 Entrada</td>
+                <td>🟡 Intermedio</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="wf-status status-draft">Borrador</span></td>
+                <td style="display:flex;gap:4px;">
+                  <span style="cursor:default;font-size:16px;">✏️</span>
+                  <span style="cursor:default;font-size:16px;">🗑️</span>
+                </td>
+              </tr>
+              <tr>
+                <td><strong>Risotto de Champiñones</strong></td>
+                <td>🍚 Almuerzo</td>
+                <td>🔴 Avanzado</td>
+                <td>—</td>
+                <td>—</td>
+                <td><span class="wf-status status-pending">Pendiente</span></td>
+                <td style="display:flex;gap:4px;">
+                  <span style="cursor:default;font-size:16px;">👁️</span>
+                  <span style="cursor:default;font-size:16px;">🗑️</span>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-annotations">
+    <div class="wf-annotation chef-note">
+      <div class="wf-ann-title chef">RF-06: Gestión de Contenido</div>
+      El chef puede ver el estado de cada receta (Publicada, Borrador, Pendiente de validación), editarlas o eliminarlas. Acceso completo a métricas personales.
+    </div>
+    <div class="wf-annotation chef-note">
+      <div class="wf-ann-title chef">RF-01: Validación de recetas</div>
+      El chef también puede validar recetas subidas por usuarios avanzados desde la sección "Validar Recetas" del sidebar.
+    </div>
+    <div class="wf-annotation rnf-note">
+      <div class="wf-ann-title rnf">RNF-03: Sesión segura</div>
+      El perfil es privado y solo accesible por el propietario autenticado. Indicador de sesión activa visible en todo momento.
+    </div>
+  </div>
+</div>
+
+<!-- ┌────────────────────────────────────────────────────────────────────┐
+     │  PANTALLA 4 — Detalle de Receta + Favoritos (RF-03) — USUARIO   │
+     └────────────────────────────────────────────────────────────────────┘ -->
+<div id="s4" class="screen">
+  <div class="screen-header">
+    <div>
+      <div class="screen-label" style="color:var(--user)">Pantalla 4 de 6 — Rol: Usuario Regular</div>
+      <div class="screen-title">Detalle de Receta y Gestión de Favoritos</div>
+      <div class="screen-desc">Vista completa de una receta. El usuario puede calificarla, comentarla, agregarla a sus favoritos, crear versiones personalizadas y agregarla al planificador.</div>
+      <div class="req-tags">
+        <span class="req-tag">RF-03: Gestión de Favoritos</span>
+        <span class="req-tag">RF-04: Agregar al planificador</span>
+        <span class="req-tag">RNF-01: Carga &lt; 3s</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-canvas">
+    <div class="wf-navbar">
+      <div class="wf-logo">🍽 RecetaHub</div>
+      <div class="wf-nav-links">
+        <div class="wf-nav-link active-link">Catálogo</div>
+        <div class="wf-nav-link">Planificador</div>
+        <div class="wf-nav-link">Mi Colección</div>
+      </div>
+      <div class="wf-nav-actions">
+        <div class="wf-avatar user-avatar">MR</div>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-main" style="padding:20px;">
+        <div class="wf-breadcrumb">Catálogo → Almuerzos → <span>Pasta Carbonara Clásica</span></div>
+
+        <!-- Layout de 2 columnas -->
+        <div style="display:grid;grid-template-columns:1fr 340px;gap:24px;">
+
+          <!-- Columna principal -->
+          <div>
+            <!-- Header receta -->
+            <div style="display:flex;align-items:flex-start;justify-content:space-between;margin-bottom:16px;">
+              <div>
+                <div class="wf-page-title">Pasta Carbonara Clásica</div>
+                <div style="display:flex;gap:8px;align-items:center;margin-top:6px;">
+                  <span class="wf-stars">★★★★★</span>
+                  <span style="font-size:12px;color:var(--mid);">4.9 · 87 valoraciones</span>
+                  <span class="wf-tag">🏆 #2 más popular esta semana</span>
+                </div>
+                <div style="margin-top:8px;display:flex;gap:6px;">
+                  <span class="wf-tag">🟡 Intermedio</span>
+                  <span class="wf-tag">🍝 Almuerzo</span>
+                  <span class="wf-tag">⏱ 40 min</span>
+                  <span class="wf-tag">💰 ₡2,200/porción</span>
+                  <span class="wf-tag">👤 2 porciones</span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Imagen principal -->
+            <div class="wf-upload-area" style="height:200px;margin-bottom:16px;">
+              <div style="font-size:48px;">🍝</div>
+              <div class="wf-upload-text">Imagen principal de la receta</div>
+            </div>
+
+            <!-- Pasos -->
+            <div class="wf-section-header">Instrucciones</div>
+            <div style="background:var(--light);border:1px solid var(--border);border-radius:4px;padding:12px;margin-bottom:8px;display:flex;gap:10px;">
+              <div style="width:24px;height:24px;background:var(--user);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">1</div>
+              <div style="font-size:12px;color:var(--dark);line-height:1.6;">Cocinar la pasta en agua con sal abundante siguiendo las instrucciones del paquete hasta que esté al dente.</div>
+            </div>
+            <div style="background:var(--light);border:1px solid var(--border);border-radius:4px;padding:12px;margin-bottom:8px;display:flex;gap:10px;">
+              <div style="width:24px;height:24px;background:var(--user);color:white;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;">2</div>
+              <div style="font-size:12px;color:var(--dark);line-height:1.6;">Mezclar en un bol los huevos, queso parmesano rallado y pimienta negra hasta obtener una crema homogénea.</div>
+            </div>
+            <div style="background:var(--surface);border:1.5px dashed var(--border);border-radius:4px;padding:12px;margin-bottom:16px;text-align:center;font-size:11px;color:var(--wire);">
+              Pasos 3-5 (acordeón colapsado — haz clic para ver más)
+            </div>
+
+            <!-- Sección de comentarios -->
+            <div class="wf-section-header">Comentarios y Calificaciones</div>
+            <!-- Mi calificación -->
+            <div style="background:var(--light);border:1.5px solid var(--border);border-radius:4px;padding:14px;margin-bottom:12px;">
+              <div style="font-size:11px;font-weight:700;color:var(--mid);margin-bottom:8px;">TU CALIFICACIÓN</div>
+              <div style="font-size:28px;letter-spacing:4px;margin-bottom:8px;cursor:default;">⭐⭐⭐⭐☆</div>
+              <div class="wf-textarea" style="margin-bottom:8px;height:50px;">Excelente receta, usé panceta en lugar de guanciale y quedó igual de rica...</div>
+              <div class="wf-btn primary" style="font-size:11px;padding:6px 14px;">Publicar comentario</div>
+            </div>
+            <!-- Comentarios existentes -->
+            <div class="wf-comment">
+              <div class="wf-comment-author">👤 Ana García · <span class="wf-stars" style="font-size:10px;">★★★★★</span></div>
+              La mejor receta de carbonara que he probado. El truco del agua de cocción es clave.
+            </div>
+            <div class="wf-comment">
+              <div class="wf-comment-author">👤 Carlos R. · <span class="wf-stars" style="font-size:10px;">★★★★</span><span class="wf-stars-empty" style="font-size:10px;">★</span></div>
+              Muy buena. Le agregué champiñones y quedó espectacular. La recomiendo.
+            </div>
+          </div>
+
+          <!-- Sidebar derecho -->
+          <div>
+            <!-- Acciones -->
+            <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:4px;padding:16px;margin-bottom:16px;">
+              <div style="font-size:11px;font-weight:700;color:var(--mid);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.8px;">Acciones</div>
+              <div class="wf-btn primary" style="width:100%;justify-content:center;margin-bottom:8px;font-size:11px;">♡ Guardar en Favoritos</div>
+              <div class="wf-btn green" style="width:100%;justify-content:center;margin-bottom:8px;font-size:11px;">📅 Agregar al Planificador</div>
+              <div class="wf-btn secondary" style="width:100%;justify-content:center;margin-bottom:8px;font-size:11px;">✏️ Crear mi versión</div>
+              <div class="wf-btn secondary" style="width:100%;justify-content:center;font-size:11px;">🚩 Reportar</div>
+            </div>
+
+            <!-- Guardar en colección modal inline -->
+            <div style="background:var(--light);border:1.5px dashed var(--accent);border-radius:4px;padding:14px;margin-bottom:16px;">
+              <div style="font-size:11px;font-weight:700;color:var(--accent);margin-bottom:8px;">♡ GUARDAR EN COLECCIÓN</div>
+              <div style="font-size:11px;color:var(--mid);margin-bottom:8px;">Elige una colección:</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <div class="wf-check checked"></div>
+                <span style="font-size:12px;">⭐ Mis Favoritos (24)</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px;">
+                <div class="wf-check"></div>
+                <span style="font-size:12px;">🍝 Pastas y arroces (8)</span>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:10px;">
+                <div class="wf-check"></div>
+                <span style="font-size:12px;">💰 Presupuesto bajo (5)</span>
+              </div>
+              <div class="wf-input" style="font-size:11px;margin-bottom:8px;">+ Nueva colección</div>
+              <div class="wf-btn primary" style="font-size:11px;padding:7px 14px;">Confirmar</div>
+            </div>
+
+            <!-- Ingredientes -->
+            <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:4px;padding:16px;">
+              <div style="font-size:11px;font-weight:700;color:var(--mid);margin-bottom:12px;text-transform:uppercase;letter-spacing:0.8px;">Ingredientes (2 porciones)</div>
+              <div style="font-size:12px;line-height:2;color:var(--dark);">
+                • 200g pasta espagueti<br>
+                • 100g guanciale o panceta<br>
+                • 2 huevos enteros + 1 yema<br>
+                • 60g queso pecorino romano<br>
+                • Pimienta negra c/n
+              </div>
+              <div class="wf-divider"></div>
+              <div style="font-size:11px;color:var(--mid);">💰 Costo total estimado</div>
+              <div style="font-family:'Playfair Display',serif;font-size:20px;color:var(--dark);">₡ 4,400 <span style="font-size:12px;font-family:'DM Sans',sans-serif;color:var(--mid);">/ 2 porciones</span></div>
+              <div class="wf-btn green" style="font-size:11px;padding:7px 14px;margin-top:10px;">🛒 Agregar a lista de compras</div>
+            </div>
+
+            <!-- Chef info -->
+            <div style="background:var(--surface);border:1.5px solid var(--border);border-radius:4px;padding:14px;margin-top:16px;">
+              <div style="font-size:11px;font-weight:700;color:var(--mid);margin-bottom:10px;text-transform:uppercase;letter-spacing:0.8px;">Por</div>
+              <div style="display:flex;gap:10px;align-items:center;">
+                <div class="wf-avatar chef-avatar" style="width:36px;height:36px;">JM</div>
+                <div>
+                  <div style="font-size:12px;font-weight:600;">Jorge Montoya</div>
+                  <div style="font-size:10px;color:var(--accent2);">✓ Chef Verificado</div>
+                </div>
+              </div>
+              <div class="wf-btn secondary" style="font-size:10px;padding:5px 12px;margin-top:10px;">+ Seguir (438)</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-annotations">
+    <div class="wf-annotation user-note">
+      <div class="wf-ann-title user">RF-03: Guardar en Colecciones</div>
+      El panel derecho muestra el modal de colecciones con checkboxes para seleccionar dónde guardar. El usuario puede crear nuevas colecciones personalizadas.
+    </div>
+    <div class="wf-annotation user-note">
+      <div class="wf-ann-title user">RF-04: Agregar al Planificador</div>
+      Botón "Agregar al Planificador" abre un selector de día (Lunes-Domingo) y tipo de comida (desayuno/almuerzo/cena) para asignar la receta.
+    </div>
+    <div class="wf-annotation chef-note">
+      <div class="wf-ann-title chef">Versiones derivadas</div>
+      "Crear mi versión" crea una copia de la receta original manteniendo la atribución al chef original, permitiendo modificaciones personales.
+    </div>
+  </div>
+</div>
+
+<!-- ┌────────────────────────────────────────────────────────────────────┐
+     │  PANTALLA 5 — Planificador de Comidas (RF-04) — USUARIO          │
+     └────────────────────────────────────────────────────────────────────┘ -->
+<div id="s5" class="screen">
+  <div class="screen-header">
+    <div>
+      <div class="screen-label" style="color:var(--user)">Pantalla 5 de 6 — Rol: Usuario Regular</div>
+      <div class="screen-title">Planificador de Comidas Semanal</div>
+      <div class="screen-desc">El usuario asigna recetas a cada día de la semana (Lunes–Domingo) por tipo de comida. El sistema calcula el presupuesto total de la semana en tiempo real.</div>
+      <div class="req-tags">
+        <span class="req-tag">RF-04: Planificador de Comidas</span>
+        <span class="req-tag">RF-05: Generación de Lista de Compras</span>
+        <span class="req-tag">RNF-01: Rendimiento</span>
+        <span class="req-tag">RNF-05: Escalabilidad</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-canvas">
+    <div class="wf-navbar">
+      <div class="wf-logo">🍽 RecetaHub</div>
+      <div class="wf-nav-links">
+        <div class="wf-nav-link">Catálogo</div>
+        <div class="wf-nav-link active-link">Planificador</div>
+        <div class="wf-nav-link">Mi Colección</div>
+      </div>
+      <div class="wf-nav-actions">
+        <div class="wf-avatar user-avatar">MR</div>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-sidebar">
+        <div class="wf-sidebar-section">
+          <div class="wf-sidebar-label">Semana Actual</div>
+          <div style="padding:8px 16px;font-size:12px;color:var(--mid);">24 Feb – 2 Mar, 2026</div>
+        </div>
+        <div class="wf-sidebar-section">
+          <div class="wf-sidebar-label">Resumen</div>
+          <div class="wf-mini-stat">Recetas planificadas <strong>9 / 21</strong></div>
+          <div class="wf-mini-stat">Presupuesto total <strong>₡28,400</strong></div>
+          <div class="wf-mini-stat">Porciones totales <strong>24</strong></div>
+          <div class="wf-mini-stat">Ingredientes únicos <strong>31</strong></div>
+        </div>
+        <div class="wf-divider"></div>
+        <div style="padding:16px;">
+          <div class="wf-sidebar-label" style="margin-bottom:10px;">Mis Colecciones</div>
+          <div style="font-size:11px;color:var(--mid);line-height:2;">
+            ⭐ Mis Favoritos (24)<br>
+            🍝 Pastas y arroces (8)<br>
+            💰 Presupuesto bajo (5)
+          </div>
+        </div>
+        <div class="wf-divider"></div>
+        <div style="padding:16px;">
+          <div class="wf-btn green" style="width:100%;justify-content:center;font-size:11px;padding:9px 0;">🛒 Generar Lista de Compras</div>
+        </div>
+      </div>
+      <div class="wf-main" style="padding:16px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <div>
+            <div class="wf-page-title" style="font-size:18px;">📅 Planificador Semanal</div>
+            <div style="font-size:11px;color:var(--mid);margin-top:2px;">Haz clic en cualquier celda vacía para agregar una receta</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <div class="wf-btn secondary" style="font-size:11px;padding:7px 12px;">← Sem anterior</div>
+            <div class="wf-btn secondary" style="font-size:11px;padding:7px 12px;">Sem siguiente →</div>
+            <div class="wf-btn primary" style="font-size:11px;padding:7px 12px;">Limpiar semana</div>
+          </div>
+        </div>
+
+        <!-- Planner grid -->
+        <div style="overflow-x:auto;">
+          <div class="wf-planner">
+            <!-- Lunes -->
+            <div class="wf-day-col">
+              <div class="wf-day-header">Lun 24</div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Desayuno</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+              <div class="wf-day-slot filled">
+                <div class="wf-slot-meal">Almuerzo</div>
+                <div class="wf-slot-name">Gallo Pinto Gourmet</div>
+                <div style="font-size:9px;color:var(--wire);margin-top:3px;">₡800</div>
+              </div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Cena</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+            </div>
+            <!-- Martes -->
+            <div class="wf-day-col">
+              <div class="wf-day-header">Mar 25</div>
+              <div class="wf-day-slot filled">
+                <div class="wf-slot-meal">Desayuno</div>
+                <div class="wf-slot-name">Tostadas con Aguacate</div>
+                <div style="font-size:9px;color:var(--wire);margin-top:3px;">₡600</div>
+              </div>
+              <div class="wf-day-slot filled">
+                <div class="wf-slot-meal">Almuerzo</div>
+                <div class="wf-slot-name">Sopa de Pollo Casera</div>
+                <div style="font-size:9px;color:var(--wire);margin-top:3px;">₡1,500</div>
+              </div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Cena</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+            </div>
+            <!-- Miércoles -->
+            <div class="wf-day-col">
+              <div class="wf-day-header">Mié 26</div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Desayuno</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+              <div class="wf-day-slot filled">
+                <div class="wf-slot-meal">Almuerzo</div>
+                <div class="wf-slot-name">Pasta Carbonara</div>
+                <div style="font-size:9px;color:var(--wire);margin-top:3px;">₡2,200</div>
+              </div>
+              <div class="wf-day-slot filled">
+                <div class="wf-slot-meal">Cena</div>
+                <div class="wf-slot-name">Ensalada Mediterránea</div>
+                <div style="font-size:9px;color:var(--wire);margin-top:3px;">₡1,800</div>
+              </div>
+            </div>
+            <!-- Jueves -->
+            <div class="wf-day-col">
+              <div class="wf-day-header">Jue 27</div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Desayuno</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Almuerzo</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+              <div class="wf-day-slot filled">
+                <div class="wf-slot-meal">Cena</div>
+                <div class="wf-slot-name">Arroz con Pollo Tico</div>
+                <div style="font-size:9px;color:var(--wire);margin-top:3px;">₡2,500</div>
+              </div>
+            </div>
+            <!-- Viernes -->
+            <div class="wf-day-col">
+              <div class="wf-day-header">Vie 28</div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Desayuno</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Almuerzo</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Cena</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+            </div>
+            <!-- Sábado -->
+            <div class="wf-day-col">
+              <div class="wf-day-header">Sáb 1</div>
+              <div class="wf-day-slot filled">
+                <div class="wf-slot-meal">Desayuno</div>
+                <div class="wf-slot-name">Pancakes con Frutas</div>
+                <div style="font-size:9px;color:var(--wire);margin-top:3px;">₡1,200</div>
+              </div>
+              <div class="wf-day-slot filled">
+                <div class="wf-slot-meal">Almuerzo</div>
+                <div class="wf-slot-name">Ceviche Tropical</div>
+                <div style="font-size:9px;color:var(--wire);margin-top:3px;">₡2,800</div>
+              </div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Cena</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+            </div>
+            <!-- Domingo -->
+            <div class="wf-day-col">
+              <div class="wf-day-header">Dom 2</div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Desayuno</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+              <div class="wf-day-slot filled">
+                <div class="wf-slot-meal">Almuerzo</div>
+                <div class="wf-slot-name">Tres Leches Especial</div>
+                <div style="font-size:9px;color:var(--wire);margin-top:3px;">₡3,200</div>
+              </div>
+              <div class="wf-day-slot">
+                <div class="wf-slot-meal">Cena</div>
+                <div class="wf-slot-empty">+</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Budget summary -->
+        <div style="background:var(--dark);color:#F5F0E8;border-radius:4px;padding:16px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:10px;text-transform:uppercase;letter-spacing:1px;opacity:0.6;margin-bottom:2px;">Presupuesto total estimado para la semana</div>
+            <div style="font-family:'Playfair Display',serif;font-size:28px;">₡ 28,400</div>
+          </div>
+          <div style="text-align:right;">
+            <div style="font-size:11px;opacity:0.6;margin-bottom:4px;">9 comidas planificadas</div>
+            <div class="wf-btn green" style="font-size:12px;">🛒 Generar Lista de Compras</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-annotations">
+    <div class="wf-annotation user-note">
+      <div class="wf-ann-title user">RF-04: Planificador</div>
+      Cuadrícula de 7 columnas (días) × 3 filas (desayuno/almuerzo/cena). Celdas vacías muestran "+" para agregar. Al hacer clic se abre buscador de recetas para asignar.
+    </div>
+    <div class="wf-annotation user-note">
+      <div class="wf-ann-title user">RF-05: Cálculo automático</div>
+      El presupuesto total se actualiza en tiempo real sumando el costo por porción de cada receta asignada. El botón "Generar Lista de Compras" procesa todos los ingredientes.
+    </div>
+    <div class="wf-annotation rnf-note">
+      <div class="wf-ann-title rnf">RNF-01: Rendimiento</div>
+      El planificador carga solo las recetas asignadas en la semana activa. La navegación entre semanas usa carga diferida (lazy loading) para mantener &lt;3s.
+    </div>
+  </div>
+</div>
+
+<!-- ┌────────────────────────────────────────────────────────────────────┐
+     │  PANTALLA 6 — Lista de Compras (RF-05) — USUARIO                 │
+     └────────────────────────────────────────────────────────────────────┘ -->
+<div id="s6" class="screen">
+  <div class="screen-header">
+    <div>
+      <div class="screen-label" style="color:var(--user)">Pantalla 6 de 6 — Rol: Usuario Regular</div>
+      <div class="screen-title">Lista de Compras Generada</div>
+      <div class="screen-desc">Lista automática de ingredientes basada en las recetas del planificador semanal. Los ingredientes se consolidan y agrupan por categoría, evitando duplicados.</div>
+      <div class="req-tags">
+        <span class="req-tag">RF-05: Generación de Lista de Compras</span>
+        <span class="req-tag">RF-04: Planificador</span>
+        <span class="req-tag">RNF-04: Usabilidad</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-canvas">
+    <div class="wf-navbar">
+      <div class="wf-logo">🍽 RecetaHub</div>
+      <div class="wf-nav-links">
+        <div class="wf-nav-link">Catálogo</div>
+        <div class="wf-nav-link">Planificador</div>
+        <div class="wf-nav-link active-link">Lista de Compras</div>
+      </div>
+      <div class="wf-nav-actions">
+        <div class="wf-avatar user-avatar">MR</div>
+      </div>
+    </div>
+    <div class="wf-body">
+      <div class="wf-sidebar">
+        <div class="wf-sidebar-section">
+          <div class="wf-sidebar-label">Semana</div>
+          <div style="padding:8px 16px;font-size:12px;color:var(--mid);">24 Feb – 2 Mar, 2026</div>
+          <div style="padding:0 16px 8px;font-size:11px;color:var(--accent2);">9 recetas · 31 ingredientes</div>
+        </div>
+        <div class="wf-sidebar-section">
+          <div class="wf-sidebar-label">Progreso</div>
+          <div style="padding:0 16px;">
+            <div style="background:var(--border);border-radius:10px;height:6px;margin-bottom:6px;">
+              <div style="background:var(--accent2);width:35%;height:6px;border-radius:10px;"></div>
+            </div>
+            <div style="font-size:11px;color:var(--mid);">11 de 31 marcados</div>
+          </div>
+        </div>
+        <div class="wf-divider"></div>
+        <div class="wf-sidebar-section">
+          <div class="wf-sidebar-label">Acciones</div>
+          <div class="wf-sidebar-item"><span class="si-icon">🖨️</span> Imprimir lista</div>
+          <div class="wf-sidebar-item"><span class="si-icon">📤</span> Compartir</div>
+          <div class="wf-sidebar-item"><span class="si-icon">📋</span> Copiar texto</div>
+          <div class="wf-sidebar-item"><span class="si-icon">↩️</span> Volver al planificador</div>
+        </div>
+        <div class="wf-divider"></div>
+        <div style="padding:16px;">
+          <div class="wf-sidebar-label" style="margin-bottom:8px;">Costo estimado total</div>
+          <div style="font-family:'Playfair Display',serif;font-size:22px;color:var(--dark);">₡ 28,400</div>
+          <div style="font-size:10px;color:var(--mid);margin-top:2px;">Basado en precios promedio</div>
+        </div>
+      </div>
+      <div class="wf-main">
+        <!-- Header -->
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:16px;">
+          <div>
+            <div class="wf-page-title" style="font-size:18px;">🛒 Lista de Compras</div>
+            <div style="font-size:11px;color:var(--mid);margin-top:2px;">Generada automáticamente · Semana del 24 Feb al 2 Mar</div>
+          </div>
+          <div style="display:flex;gap:8px;">
+            <div class="wf-btn secondary" style="font-size:11px;padding:7px 12px;">Desmarcar todo</div>
+            <div class="wf-btn primary" style="font-size:11px;padding:7px 12px;">Marcar todo</div>
+          </div>
+        </div>
+
+        <!-- Layout de 2 columnas -->
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;">
+          <!-- Col 1 -->
+          <div>
+            <!-- Proteínas -->
+            <div class="wf-section-header">🥩 Proteínas</div>
+            <div style="background:white;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:16px;">
+              <div class="wf-shopping-item">
+                <div class="wf-check checked"></div>
+                <div class="wf-item-name">Pechuga de pollo</div>
+                <div class="wf-item-qty">800g</div>
+                <div class="wf-item-cat">Lunes / Martes</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Guanciale / Panceta</div>
+                <div class="wf-item-qty">200g</div>
+                <div class="wf-item-cat">Miércoles</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Camarones frescos</div>
+                <div class="wf-item-qty">400g</div>
+                <div class="wf-item-cat">Sábado</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Huevos</div>
+                <div class="wf-item-qty">12 unid.</div>
+                <div class="wf-item-cat">Varios</div>
+              </div>
+            </div>
+
+            <!-- Granos / Carbos -->
+            <div class="wf-section-header">🌾 Granos y Carbohidratos</div>
+            <div style="background:white;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:16px;">
+              <div class="wf-shopping-item">
+                <div class="wf-check checked"></div>
+                <div class="wf-item-name">Arroz blanco</div>
+                <div class="wf-item-qty">2 kg</div>
+                <div class="wf-item-cat">Lunes / Jueves</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check checked"></div>
+                <div class="wf-item-name">Frijoles negros</div>
+                <div class="wf-item-qty">500g</div>
+                <div class="wf-item-cat">Lunes</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Pasta espagueti</div>
+                <div class="wf-item-qty">400g</div>
+                <div class="wf-item-cat">Miércoles</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check checked"></div>
+                <div class="wf-item-name">Harina de trigo</div>
+                <div class="wf-item-qty">500g</div>
+                <div class="wf-item-cat">Sábado / Domingo</div>
+              </div>
+            </div>
+
+            <!-- Lácteos -->
+            <div class="wf-section-header">🥛 Lácteos y Quesos</div>
+            <div style="background:white;border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+              <div class="wf-shopping-item">
+                <div class="wf-check checked"></div>
+                <div class="wf-item-name">Leche entera</div>
+                <div class="wf-item-qty">2L</div>
+                <div class="wf-item-cat">Domingo</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Queso pecorino romano</div>
+                <div class="wf-item-qty">120g</div>
+                <div class="wf-item-cat">Miércoles</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check checked"></div>
+                <div class="wf-item-name">Crema para batir</div>
+                <div class="wf-item-qty">250ml</div>
+                <div class="wf-item-cat">Domingo</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Col 2 -->
+          <div>
+            <!-- Verduras -->
+            <div class="wf-section-header">🥦 Verduras y Hortalizas</div>
+            <div style="background:white;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:16px;">
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Cebolla blanca</div>
+                <div class="wf-item-qty">4 unid.</div>
+                <div class="wf-item-cat">Varios</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Chile dulce rojo</div>
+                <div class="wf-item-qty">3 unid.</div>
+                <div class="wf-item-cat">Lunes / Jueves</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Tomate cherry</div>
+                <div class="wf-item-qty">300g</div>
+                <div class="wf-item-cat">Miércoles</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Lechuga romana</div>
+                <div class="wf-item-qty">1 cabeza</div>
+                <div class="wf-item-cat">Miércoles</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check checked"></div>
+                <div class="wf-item-name">Culantro / Cilantro</div>
+                <div class="wf-item-qty">1 manojo</div>
+                <div class="wf-item-cat">Lunes</div>
+              </div>
+            </div>
+
+            <!-- Frutas -->
+            <div class="wf-section-header">🍋 Frutas y Cítricos</div>
+            <div style="background:white;border:1px solid var(--border);border-radius:4px;overflow:hidden;margin-bottom:16px;">
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Aguacate</div>
+                <div class="wf-item-qty">2 unid.</div>
+                <div class="wf-item-cat">Martes</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check checked"></div>
+                <div class="wf-item-name">Limón criollo</div>
+                <div class="wf-item-qty">8 unid.</div>
+                <div class="wf-item-cat">Sábado</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Piña</div>
+                <div class="wf-item-qty">½ unid.</div>
+                <div class="wf-item-cat">Sábado</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Fresas frescas</div>
+                <div class="wf-item-qty">250g</div>
+                <div class="wf-item-cat">Sábado</div>
+              </div>
+            </div>
+
+            <!-- Despensa -->
+            <div class="wf-section-header">🧂 Despensa y Condimentos</div>
+            <div style="background:white;border:1px solid var(--border);border-radius:4px;overflow:hidden;">
+              <div class="wf-shopping-item">
+                <div class="wf-check checked"></div>
+                <div class="wf-item-name">Aceite de oliva</div>
+                <div class="wf-item-qty">500ml</div>
+                <div class="wf-item-cat">Varios</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Sal y pimienta</div>
+                <div class="wf-item-qty">C/N</div>
+                <div class="wf-item-cat">Varios</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check checked"></div>
+                <div class="wf-item-name">Leche de coco</div>
+                <div class="wf-item-qty">400ml</div>
+                <div class="wf-item-cat">Lunes</div>
+              </div>
+              <div class="wf-shopping-item">
+                <div class="wf-check"></div>
+                <div class="wf-item-name">Salsa Lizano</div>
+                <div class="wf-item-qty">1 frasco</div>
+                <div class="wf-item-cat">Lunes / Jueves</div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Footer -->
+        <div style="background:var(--light);border:1px solid var(--border);border-radius:4px;padding:14px;margin-top:16px;display:flex;justify-content:space-between;align-items:center;">
+          <div style="font-size:12px;color:var(--mid);">
+            <strong style="color:var(--dark);">11</strong> de <strong style="color:var(--dark);">31</strong> ítems marcados como comprados
+          </div>
+          <div style="display:flex;gap:8px;">
+            <div class="wf-btn secondary" style="font-size:11px;">🖨️ Imprimir</div>
+            <div class="wf-btn secondary" style="font-size:11px;">📤 Compartir</div>
+            <div class="wf-btn green" style="font-size:11px;">✓ Guardar lista</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="wf-annotations">
+    <div class="wf-annotation user-note">
+      <div class="wf-ann-title user">RF-05: Generación automática</div>
+      Los ingredientes se consolidan automáticamente (ej. arroz aparece solo una vez con la cantidad total sumada de todas las recetas). Se agrupan por categoría para facilitar la compra.
+    </div>
+    <div class="wf-annotation user-note">
+      <div class="wf-ann-title user">Marcado de ítems</div>
+      El usuario puede ir marcando lo que ya compró con un checkbox. La barra de progreso en el sidebar se actualiza en tiempo real. Los marcados pueden filtrarse/ocultarse.
+    </div>
+    <div class="wf-annotation rnf-note">
+      <div class="wf-ann-title rnf">RNF-04: Usabilidad + RNF-06: Compatibilidad</div>
+      Lista imprimible y compartible. Diseño responsive para móvil (una columna) y escritorio (dos columnas). Compatible con Chrome, Firefox y Safari según RNF-06.
+    </div>
+    <div class="wf-annotation rnf-note">
+      <div class="wf-ann-title rnf">Referencia a receta</div>
+      Cada ingrediente muestra a qué día/receta corresponde, facilitando la trazabilidad y la planificación de compras por día o tienda.
+    </div>
+  </div>
+</div>
+
+</div><!-- /content-area -->
+
+<!-- Footer del documento -->
+<div style="background:var(--dark);color:rgba(245,240,232,0.4);text-align:center;padding:16px;font-size:11px;margin-top:32px;">
+  RecetaHub · Wireframe v1.0 · Proyecto Técnico – Técnico en Ingeniería de Software · Feb 2026
+  &nbsp;|&nbsp; 6 pantallas · 2 roles (Chef & Usuario Regular) · RF-01 a RF-06 · RNF-01 a RNF-06
+</div>
+
+<script>
+  function showScreen(id) {
+    document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-tab').forEach(t => t.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    const idx = parseInt(id.replace('s','')) - 1;
+    document.querySelectorAll('.nav-tab')[idx].classList.add('active');
+    window.scrollTo({top: 0, behavior: 'smooth'});
+  }
+</script>
+</body>
+</html>
