@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registrar Receta- Mi Chef</title>
+    <link rel="stylesheet" href="Nueva_Receta_Test.css">
+
+    <!--FrontAwesome-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+</head>
+
+<body>
+    <!-- Barra de Navegación -->
+    <nav>
+        <div style="display: flex; align-items: center;">
+            <h2 style="margin-right: 10px;">Registrar Receta </h2>
+            <a href="#">Catalogo </a>
+            <a href="#">Mi Perfil </a>
+            <a href="#"> + Nueva Receta</a>
+            <img src="assets/imgs/receta.png" alt="Receta" style="height: 40px; margin-left: auto;">
+            <span>Mi Chef</span> <!--El span se utiliza para mostrar el nombre del usuario -->
+        </div>
+
+        <!-- Menu Lateral  -->
+        <p>Mis Recetas</p>
+        <ul>
+            <li>Publicaciones (16)</li>
+            <li>Borradores (4)</li>
+            <li><a href="#"> + Nueva Receta</a></li>
+        </ul>
+        <!-- Contenido Principal-->
+        <main>
+            <h2>Registrar Nueva Receta</h2>
+            <p>Los espacion con * son obligatorios.</p>
+
+            <!-- Seccion de informacion en general -->
+            <section>
+                <h3>Información General</h3>
+                <label for="titulo">Nombre de la Receta *</label>
+                <input type="text" placeholder="Ej: Gallo Pinto">
+                <!-- El placeholde se usa para mostrar un ejemplo de lo que se espera -->
+
+                <label>Tipo de Plato *</label>
+                <select>
+                    <option value="">Seleccione un tipo</option>
+                    <option>Desayuno</option>
+                    <option>Almuerzo</option>
+                    <option>Cena</option>
+                    <option>Postre</option>
+                </select>
+
+                <label>Dificultad *</label>
+                <select>
+                    <option value="">Seleccione una dificultad</option>
+                    <option>Fácil</option>
+                    <option>Media</option>
+                    <option>Difícil</option>
+                </select>
+
+                <label>Tiempo de Preparación *</label>
+                <input type="text" placeholder="Ej: 30 min">
+
+                <label>Porciones</label>
+                <input type="number" placeholder="Ej: 4">
+
+                <label>Descripción</label>
+                <textarea placeholder="Describe tu receta..."></textarea>
+            </section>
+
+            <!-- Seccion de Imagenes-->
+            <section>
+                <h3>Imágenes de la receta</h3>
+                <input type="file" accept="image/*">
+            </section>
+
+            <!-- Seccion deIngredientes -->
+            <section>
+                <h3>Ingredientes</h3>
+                <table> <!-- La tabla se utiliza para organizar los ingredientes en filas y columnas -->
+                    <thead>
+                        <!-- El thead se utiliza para definir el encabezado de la tabla, cada columna tiene un título que describe el tipo de información que se espera en esa columna -->
+                        <tr> <!-- El tr se utiliza para definir una fila en la tabla, cada fila representa un ingrediente diferente -->
+                            <th>Ingrediente</th>
+                            <th>Cantidad</th>
+                            <th>Unidad</th>
+                            <th>Costo</th>
+                            <th>Eliminar</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <!-- El tbody se utiliza para agrupar el contenido principal de la tabla, cada fila dentro del tbody representa un ingrediente diferente con sus detalles correspondientes -->
+                        <tr> <!-- El tr se utiliza para definir una fila en la tabla, cada fila representa un ingrediente diferente -->
+                            <td><input type="text" placeholder="Ej: Arroz"></td>
+                            <td><input type="number" placeholder="Ej: 2"></td>
+                            <td> <!-- El td se utiliza para definir una celda en la tabla, cada celda representa un campo específico del ingrediente -->
+                                <select>
+                                    <!-- El select se utiliza para crear un menú desplegable, el usuario puede seleccionar la unidad de medida que corresponda al ingrediente -->
+                                    <option>Tazas</option>
+                                    <option>Gramos</option>
+                                    <option>Unidades</option>
+                                </select>
+                            </td>
+                            <td><input type="number" placeholder="Ej: 1.50"></td>
+                            <td><button type="button">X</button> </td>
+                        </tr>
+
+                        <tr>
+                            <td><input type="text" placeholder="Ej: Arroz"></td>
+                            <td><input type="number" placeholder="Ej: 2"></td>
+                            <td>
+                                <select>
+                                    <option>Tazas</option>
+                                    <option>Gramos</option>
+                                    <option>Unidades</option>
+                                </select>
+                            </td>
+                            <td><input type="number" placeholder="Ej: 1.50"></td>
+                            <td><button type="button">X</button> </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <button type="button">+ Agregar Ingrediente</button>
+                <!-- El button se utiliza para crear un botón que permite al usuario agregar más ingredientes a la tabla -->
+                <p>Total del Costo: $3.00</p>
+            </section>
+
+            <!-- Seccion de Instrucciones -->
+            <section>
+                <h3>Instrucciones</h3>
+                <ol> <!-- El ol se utiliza para crear una lista ordenada, cada paso de la receta se muestra como un elemento de la lista -->
+                    <li><textarea placeholder="Paso 1: ..."></textarea></li>
+                    <li><textarea placeholder="Paso 2: ..."></textarea></li>
+                    <li><textarea placeholder="Paso 3: ..."></textarea></li>
+                </ol>
+                <button type="button">+ Agregar Paso</button>
+            </section>
+
+            <!-- Botones de Guardar y Publicar -->
+            <section>
+                <div style="margin-top: 20px;">
+                    <!-- El div se utiliza para agrupar los botones de guardar y publicar, se le da un margen superior para separarlos del resto del contenido -->
+                    <button type="button">Guardar Borrador</button>
+                    <button type="button">Publicar Receta</button>
+                </div>
+            </section>
+
+
+        </main>
+
+    </nav>
+
+</body>
+
+</html>
